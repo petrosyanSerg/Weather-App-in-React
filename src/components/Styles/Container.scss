@@ -2,6 +2,7 @@
   //size
   width: 70%;
   height: 90vh;
+  min-height: 700px;
 
   //bg color
   backdrop-filter: blur(5px);
@@ -27,6 +28,7 @@
 
   //flex
   display: flex;
+  justify-content: space-between;
   flex-flow: column nowrap;
 
   //positioin
