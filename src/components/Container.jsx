@@ -1,8 +1,11 @@
-import "./Styles/Container.scss";
 import { useEffect, useState } from "react";
+import axios from "axios";
+
 import MainInfo from "./MainInfo";
 import Header from "./Header";
 import Footer from "./Footer";
+
+import "./Styles/Container.scss";
 
 function Container() {
   const [cityName, setCityName] = useState("Yerevan");
@@ -15,20 +18,19 @@ function Container() {
   const urlUNSPLASH = (city) =>
     `https://api.unsplash.com/search/photos?client_id=CA872Hg7BfRubYizhumgFtIg5xvKPntvuVe9UK010Jw&query=${city}&orientation=landscape`;
 
-  async function getInfoByCity(city = cityName) {
-    const resp = await fetch(url(city));
-    const data = await resp.json();
-
-    const respImage = await fetch(urlUNSPLASH(city));
-    const dataIamge = await respImage.json();
-
-    addDataUpdate(dataIamge, data);
+  function getInfoByCity(city = cityName) {
+    axios.all([axios.get(url(city)), axios.get(urlUNSPLASH(city))]).then(
+      axios.spread((weather, image) => {
+        addDataUpdate(image.data, weather.data);
+      })
+    );
   }
 
   function addDataUpdate(dataIamge, data) {
     let randIndex = Math.trunc(Math.random() * dataIamge.results.length);
+    console.log(dataIamge.results[randIndex].urls);
     setStyle({
-      backgroundImage: `url("${dataIamge.results[randIndex].urls.full}")`,
+      backgroundImage: `url("${dataIamge.results[randIndex].urls.regular}")`,
     });
 
     setData({

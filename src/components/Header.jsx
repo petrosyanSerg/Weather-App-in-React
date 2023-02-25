@@ -23,8 +23,8 @@ export default function Header({ setCityName }) {
               placeholder="Enter a city name"
               className="search"
               id="search"
-              required
               onChange={(event) => setSearchVal(event.target.value)}
+              required
             />
             <label htmlFor="search" onClick={(event) => setCityName(searchVal)}>
               <ImSearch />
